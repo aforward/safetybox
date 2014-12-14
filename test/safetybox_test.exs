@@ -12,4 +12,18 @@ defmodule SafetyboxTest do
     assert S.encrypt("andrew") == S.encrypt("andrew")
   end
 
+  test "is_decrypted against encrypted value" do
+    assert S.is_decrypted("helloworld", "XXX") == false
+    assert S.is_decrypted("helloworld", S.encrypt("andrew")) == false
+    assert S.is_decrypted("helloworld", S.encrypt("helloworld")) == true
+  end
+
+  test "is_decrypted should handle nil" do
+    assert S.is_decrypted(nil, "XXX") == false
+    assert S.is_decrypted("helloworld", nil) == false
+    assert S.is_decrypted(nil, nil) == false
+    assert S.is_decrypted(nil, S.encrypt(nil)) == true
+    assert S.is_decrypted("", S.encrypt("")) == true
+  end
+
 end

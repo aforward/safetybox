@@ -4,9 +4,12 @@ defmodule Safetybox.Mixfile do
   def project do
     [
       app: :safetybox,
-      version: "0.0.1",
+      version: "0.0.2",
       elixir: "~> 1.0",
       deps: deps,
+
+      name: "safetybox",
+      source_url: "https://github.com/aforward/safetybox",
       package: [
         contributors: ["Andrew Forward"],
         licenses: ["MIT"],
@@ -35,6 +38,9 @@ defmodule Safetybox.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [
+      {:ex_doc, "~> 0.6", only: :dev},
+      {:earmark, "~> 0.1"},
+    ]
   end
 end
