@@ -51,5 +51,11 @@ defmodule SafetyboxTest do
     assert S.decrypt(S.encrypt("goodbyeworld", "mysecret", "mysalt"), "mysecret", "mysalt") == "goodbyeworld"
   end
 
+  test "encrypt / decrypt (application)" do
+    assert S.decrypt(S.encrypt("helloworld", :myapp1), :myapp2) == :error
+    assert S.decrypt(S.encrypt("helloworld", :myapp1), :myapp1) == "helloworld"
+    assert S.decrypt(S.encrypt("goodbyeworld", :myapp1), :myapp1) == "goodbyeworld"
+  end
+
 
 end
