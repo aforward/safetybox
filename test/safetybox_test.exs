@@ -26,4 +26,30 @@ defmodule SafetyboxTest do
     assert S.is_decrypted("", S.encrypt("")) == true
   end
 
+  test "encrypt / decrypt (default)" do
+    assert S.decrypt(S.encrypt("helloworld", :default)) == "helloworld"
+    assert S.decrypt(S.encrypt("goodbyeworld", :default)) == "goodbyeworld"
+  end
+
+  test "encrypt / decrypt (secret)" do
+    assert S.decrypt(S.encrypt("helloworld", "mysecret"), "yoursecret") == :error
+    assert S.decrypt(S.encrypt("goodbyeworld", "mysecret"), "yoursecret") != "goodbyeworld"
+
+    assert S.decrypt(S.encrypt("helloworld", "mysecret"), "mysecret") == "helloworld"
+    assert S.decrypt(S.encrypt("goodbyeworld", "mysecret"), "mysecret") == "goodbyeworld"
+  end
+
+  test "encrypt / decrypt (secret, salt)" do
+    assert S.decrypt(S.encrypt("helloworld", "mysecret", "mysalt"), "yoursecret", "mysalt") == :error
+    assert S.decrypt(S.encrypt("goodbyeworld", "mysecret", "mysalt"), "yoursecret", "mysalt") != "goodbyeworld"
+    assert S.decrypt(S.encrypt("helloworld", "mysecret", "mysalt"), "mysalt", "yoursalt") != "helloworld"
+    assert S.decrypt(S.encrypt("goodbyeworld", "mysecret", "mysalt"), "mysalt", "yoursalt") != "goodbyeworld"
+    assert S.decrypt(S.encrypt("helloworld", "mysecret", "mysalt"), "yoursecret", "yoursalt") != "helloworld"
+    assert S.decrypt(S.encrypt("goodbyeworld", "mysecret", "mysalt"), "yoursecret", "yoursalt") != "goodbyeworld"
+
+    assert S.decrypt(S.encrypt("helloworld", "mysecret", "mysalt"), "mysecret", "mysalt") == "helloworld"
+    assert S.decrypt(S.encrypt("goodbyeworld", "mysecret", "mysalt"), "mysecret", "mysalt") == "goodbyeworld"
+  end
+
+
 end
