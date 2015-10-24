@@ -42,7 +42,7 @@ defmodule Safetybox do
   end
 
   @doc """
-    If you don't yet need a secret or a salt (e.g. very early prototype), but you want some thigns encrypted
+    If you don't yet need a secret or a salt (e.g. very early prototype), but you want some things encrypted
     then use the :default secret.  Better than nothing, but not much.
       Safetybox.encrypt("helloworld", :default)
   """
